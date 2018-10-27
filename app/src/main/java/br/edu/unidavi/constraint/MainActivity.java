@@ -1,13 +1,49 @@
 package br.edu.unidavi.constraint;
 
+import android.support.annotation.LayoutRes;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
+import android.support.transition.TransitionManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    @LayoutRes
+    private int currentLayout = R.layout.layout_botoes_1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.layout_botoes_1);
+
+        Button button1 = findViewById(R.id.button);
+        Button button2 = findViewById(R.id.button2);
+        Button button3 = findViewById(R.id.button3);
+        Button button4 = findViewById(R.id.button4);
+
+        button1.setOnClickListener(this);
+        button2.setOnClickListener(this);
+        button3.setOnClickListener(this);
+        button4.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(currentLayout == R.layout.layout_botoes_1){
+            currentLayout = R.layout.layout_botoes_2;
+        } else {
+            currentLayout = R.layout.layout_botoes_1;
+        }
+
+        ConstraintLayout constraintLayout = findViewById(R.id.constraint);
+        TransitionManager.beginDelayedTransition(constraintLayout);
+        ConstraintSet constraintSet = new ConstraintSet();
+
+        constraintSet.load(this, currentLayout);
+        constraintSet.applyTo(constraintLayout);
     }
 }
